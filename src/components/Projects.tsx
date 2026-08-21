@@ -1,109 +1,153 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, Github, Code2, Server } from "lucide-react";
+import { ExternalLink, Github, Code2, Server, ArrowUpRight } from "lucide-react";
 import { PROJECTS, COLORS } from "../constants";
 import Image from "next/image";
 
 const Projects: React.FC = () => {
   return (
-    <section
-      id="projects"
-      className="py-20"
-      style={{ backgroundColor: "rgba(15, 23, 42, 0.3)" }}
-    >
+    <section id="projects" className="py-24 relative">
       <div className="container mx-auto px-6">
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="flex items-center gap-4 mb-16"
         >
-          <span
-            className="text-2xl md:text-3xl font-bold flex gap-2"
-            style={{ color: COLORS.text.heading }}
-          >
-            <span className="font-mono" style={{ color: COLORS.primary }}>
+          <span className="text-2xl md:text-3xl font-bold flex items-center gap-3">
+            <span className="font-mono-jb text-lg" style={{ color: COLORS.primary }}>
               03.
-            </span>{" "}
-            Featured Projects
+            </span>
+            <span className="gradient-text-static">Featured Projects</span>
           </span>
           <div
             className="h-px grow max-w-xs"
-            style={{ backgroundColor: COLORS.background.card }}
-          ></div>
+            style={{
+              background: "linear-gradient(90deg, rgba(255, 0, 110, 0.3), transparent)",
+            }}
+          />
         </motion.div>
 
-        <div className="space-y-24">
+        <div className="space-y-20">
           {PROJECTS.map((project, index) => (
             <motion.div
               key={project.id}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className={`relative grid md:grid-cols-12 gap-8 items-center ${
-                index % 2 === 1 ? "text-right" : "text-left"
-              }`}
+              transition={{ duration: 0.6 }}
+              className="glass-card p-0 overflow-hidden"
+              style={{ borderRadius: 24 }}
             >
-              {/* Content Side */}
-              <div
-                className={`md:col-span-7 ${
-                  index % 2 === 1
-                    ? "md:col-start-6 md:order-2"
-                    : "md:col-start-1 md:order-1"
-                } z-10`}
-              >
-                <p
-                  className="font-mono text-sm mb-2"
-                  style={{ color: COLORS.primary }}
-                >
-                  Featured Project
-                </p>
-                <h3
-                  className="text-3xl font-bold mb-4 hover:text-primary transition-colors cursor-pointer"
-                  style={{ color: COLORS.text.heading }}
-                >
-                  {project.title}
-                </h3>
-
-                {/* Description Box - Always Text Left for Readability */}
+              <div className={`grid md:grid-cols-12 gap-0 ${index % 2 === 1 ? "direction-rtl" : ""}`}>
+                {/* Image Side */}
                 <div
-                  className="p-6 rounded-lg shadow-xl mb-6 text-sm leading-relaxed border text-left"
-                  style={{
-                    backgroundColor: COLORS.background.card,
-                    color: COLORS.text.body,
-                    borderColor: COLORS.background.card,
-                  }}
+                  className={`md:col-span-5 relative group overflow-hidden ${
+                    index % 2 === 1 ? "md:order-2" : "md:order-1"
+                  }`}
                 >
-                  <p className="mb-4">{project.fullDescription}</p>
-                  <div className="mt-4">
-                    <h4
-                      className="font-bold mb-2 border-b pb-1 inline-block"
+                  <div className="relative h-full min-h-[280px]">
+                    {/* Gradient overlay */}
+                    <div
+                      className="absolute inset-0 z-10 transition-all duration-500 group-hover:opacity-0"
                       style={{
-                        color: COLORS.text.subheading,
-                        borderColor: COLORS.background.card,
+                        background: index % 2 === 0
+                          ? "linear-gradient(135deg, rgba(6, 214, 160, 0.25), rgba(131, 56, 236, 0.2))"
+                          : "linear-gradient(135deg, rgba(131, 56, 236, 0.25), rgba(255, 0, 110, 0.2))",
+                      }}
+                    />
+                    <a href={project.links.live} target="_blank" rel="noreferrer">
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        className="object-cover grayscale group-hover:grayscale-0 transform group-hover:scale-105 transition-all duration-700"
+                      />
+                    </a>
+
+                    {/* Live badge */}
+                    <a
+                      href={project.links.live}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="absolute top-4 right-4 z-20 glass-btn px-3 py-1.5 text-xs font-mono-jb flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      style={{ color: COLORS.primary }}
+                    >
+                      Live <ArrowUpRight className="w-3 h-3" />
+                    </a>
+                  </div>
+                </div>
+
+                {/* Content Side */}
+                <div
+                  className={`md:col-span-7 p-8 md:p-10 ${
+                    index % 2 === 1 ? "md:order-1" : "md:order-2"
+                  }`}
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <span
+                      className="font-mono-jb text-xs px-3 py-1 rounded-full"
+                      style={{
+                        color: COLORS.primary,
+                        background: "rgba(6, 214, 160, 0.1)",
+                        border: "1px solid rgba(6, 214, 160, 0.2)",
                       }}
                     >
+                      {project.type}
+                    </span>
+                    <span
+                      className="font-mono-jb text-xs"
+                      style={{ color: COLORS.text.meta }}
+                    >
+                      Featured Project
+                    </span>
+                  </div>
+
+                  <h3
+                    className="text-2xl md:text-3xl font-bold mb-4"
+                    style={{ color: COLORS.text.heading }}
+                  >
+                    {project.title}
+                  </h3>
+
+                  <p
+                    className="text-sm leading-relaxed mb-6"
+                    style={{ color: COLORS.text.body }}
+                  >
+                    {project.fullDescription}
+                  </p>
+
+                  {/* Challenges */}
+                  <div
+                    className="glass p-5 mb-6"
+                    style={{ borderRadius: 14 }}
+                  >
+                    <h4
+                      className="text-xs font-bold uppercase tracking-wider mb-3 flex items-center gap-2"
+                      style={{ color: COLORS.text.subheading }}
+                    >
+                      <span
+                        className="w-1.5 h-1.5 rounded-full"
+                        style={{ background: COLORS.primary }}
+                      />
                       Key Challenges Solved
                     </h4>
-                    <ul className="space-y-2 mt-2">
+                    <ul className="space-y-2.5">
                       {project.challenges.map(
-                        (
-                          c: { title: string; description: string },
-                          i: number
-                        ) => (
+                        (c: { title: string; description: string }, i: number) => (
                           <li
                             key={i}
-                            className="flex items-start gap-2 text-xs justify-start text-left"
+                            className="flex items-start gap-2.5 text-xs"
                           >
                             <span
-                              className="mt-0.5 shrink-0"
+                              className="mt-0.5 shrink-0 text-sm"
                               style={{ color: COLORS.primary }}
                             >
                               ▹
                             </span>
-                            <span className="w-full">
+                            <span style={{ color: COLORS.text.body }}>
                               <strong style={{ color: COLORS.text.subheading }}>
                                 {c.title}:
                               </strong>{" "}
@@ -114,109 +158,75 @@ const Projects: React.FC = () => {
                       )}
                     </ul>
                   </div>
-                </div>
 
-                <ul
-                  className={`flex flex-wrap gap-4 font-mono text-sm mb-8 ${
-                    index % 2 === 1 ? "justify-end" : "justify-start"
-                  }`}
-                  style={{ color: COLORS.text.body }}
-                >
-                  {project.techStack.map((tech: string) => (
-                    <li
-                      key={tech}
-                      className="px-2 py-1 rounded"
-                      style={{ backgroundColor: "rgba(30, 41, 59, 0.5)" }}
-                    >
-                      {tech}
-                    </li>
-                  ))}
-                </ul>
+                  {/* Tech Stack Tags */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.techStack.map((tech: string) => (
+                      <span
+                        key={tech}
+                        className="glass px-3 py-1.5 font-mono-jb text-[11px] font-medium"
+                        style={{
+                          color: COLORS.text.subheading,
+                          borderRadius: 8,
+                        }}
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
 
-                <div
-                  className={`flex flex-wrap gap-4 ${
-                    index % 2 === 1 ? "justify-end" : "justify-start"
-                  }`}
-                >
-                  {/* Github Link Logic */}
-                  {project.links.github && (
+                  {/* Links */}
+                  <div className="flex flex-wrap gap-3">
+                    {project.links.github && (
+                      <a
+                        href={project.links.github}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="glass-btn px-4 py-2 flex items-center gap-2 text-xs font-medium transition-all duration-300"
+                        style={{ color: COLORS.text.subheading }}
+                        title="GitHub Repo"
+                      >
+                        <Github size={15} /> Code
+                      </a>
+                    )}
+                    {project.links.githubFrontend && (
+                      <a
+                        href={project.links.githubFrontend}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="glass-btn px-4 py-2 flex items-center gap-2 text-xs font-medium transition-all duration-300"
+                        style={{ color: COLORS.text.subheading }}
+                        title="Frontend Code"
+                      >
+                        <Code2 size={15} /> Frontend
+                      </a>
+                    )}
+                    {project.links.githubBackend && (
+                      <a
+                        href={project.links.githubBackend}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="glass-btn px-4 py-2 flex items-center gap-2 text-xs font-medium transition-all duration-300"
+                        style={{ color: COLORS.text.subheading }}
+                        title="Backend Code"
+                      >
+                        <Server size={15} /> Backend
+                      </a>
+                    )}
                     <a
-                      href={project.links.github}
+                      href={project.links.live}
                       target="_blank"
                       rel="noreferrer"
-                      className="hover:text-primary transition-colors flex items-center gap-2 text-sm"
-                      title="GitHub Repo"
-                      style={{ color: COLORS.text.subheading }}
+                      className="gradient-border px-4 py-2 flex items-center gap-2 text-xs font-bold transition-all duration-300"
+                      style={{
+                        color: COLORS.primary,
+                        borderRadius: 12,
+                      }}
+                      title="Live Demo"
                     >
-                      <Github size={20} /> Code
+                      <ExternalLink size={15} /> Live Demo
                     </a>
-                  )}
-
-                  {/* Split Frontend/Backend Links */}
-                  {project.links.githubFrontend && (
-                    <a
-                      href={project.links.githubFrontend}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="hover:text-primary transition-colors flex items-center gap-2 text-sm"
-                      title="Frontend Code"
-                      style={{ color: COLORS.text.subheading }}
-                    >
-                      <Code2 size={20} /> Frontend
-                    </a>
-                  )}
-                  {project.links.githubBackend && (
-                    <a
-                      href={project.links.githubBackend}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="hover:text-primary transition-colors flex items-center gap-2 text-sm"
-                      title="Backend Code"
-                      style={{ color: COLORS.text.subheading }}
-                    >
-                      <Server size={20} /> Backend
-                    </a>
-                  )}
-
-                  {/* Live Link */}
-                  <a
-                    href={project.links.live}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-primary transition-colors flex items-center gap-2 text-sm font-bold"
-                    title="Live Demo"
-                    style={{ color: COLORS.text.subheading }}
-                  >
-                    <ExternalLink size={20} /> Live Demo
-                  </a>
-                </div>
-              </div>
-
-              {/* Visual Side (Image) */}
-              <div
-                className={`md:col-span-5 ${
-                  index % 2 === 1
-                    ? "md:col-start-1 md:order-1"
-                    : "md:col-start-8 md:order-2"
-                } relative group`}
-              >
-                <div
-                  className="relative rounded-lg overflow-hidden border shadow-2xl"
-                  style={{ borderColor: COLORS.background.card }}
-                >
-                  <div
-                    className="absolute inset-0 group-hover:bg-transparent transition-all duration-300 z-10 cursor-pointer"
-                    style={{ backgroundColor: "rgba(16, 185, 129, 0.2)" }}
-                  ></div>
-                  <a href={project.links.live} target="_blank" rel="noreferrer">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      width={800}
-                      height={500}
-                      className="w-full h-auto object-cover grayscale group-hover:grayscale-0 transform group-hover:scale-105 transition-all duration-500"
-                    />
-                  </a>
+                  </div>
                 </div>
               </div>
             </motion.div>

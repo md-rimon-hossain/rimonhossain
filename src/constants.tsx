@@ -1,21 +1,50 @@
 import { Github, Linkedin, Globe, Mail, Phone } from "lucide-react";
 import { SocialLink, Project, TechSkill, Education } from "./types";
 
-// Hard-coded color values
+// Glassmorphism Color Palette
 export const COLORS = {
-  primary: "#10b981", // Emerald Green
-  secondary: "#3b82f6", // Blue
-  background: {
-    main: "#020617", // Main Background (Darker)
-    card: "#0f172a", // Card/Section Background (Dark)
-    button: "#1e293b", // Button background
+  // Primary accent - Vivid Cyan
+  primary: "#06d6a0",
+  // Secondary accent - Electric Violet
+  secondary: "#8338ec",
+  // Tertiary accent - Hot Pink
+  tertiary: "#ff006e",
+  // Warm accent
+  warm: "#fb5607",
+
+  // Glass surfaces
+  glass: {
+    bg: "rgba(255, 255, 255, 0.05)",
+    bgHover: "rgba(255, 255, 255, 0.1)",
+    border: "rgba(255, 255, 255, 0.1)",
+    borderHover: "rgba(255, 255, 255, 0.2)",
+    strong: "rgba(255, 255, 255, 0.12)",
   },
+
+  // Background
+  background: {
+    main: "#0a0a1a",
+    section: "rgba(10, 10, 30, 0.6)",
+    card: "rgba(255, 255, 255, 0.06)",
+    button: "rgba(255, 255, 255, 0.08)",
+  },
+
+  // Text
   text: {
-    heading: "#f1f5f9", // Headings (White/Bright)
-    subheading: "#cbd5e1", // Subheadings (Light Grey)
-    body: "#94a3b8", // Body Text (Muted Grey)
-    meta: "#64748b", // Meta Info (Dark Grey)
-    light: "#e2e8f0", // Light text
+    heading: "#f0f0ff",
+    subheading: "#c8c8e0",
+    body: "#9898b8",
+    meta: "#6868a0",
+    light: "#e0e0f0",
+  },
+
+  // Gradients
+  gradient: {
+    primary: "linear-gradient(135deg, #06d6a0, #8338ec)",
+    secondary: "linear-gradient(135deg, #8338ec, #ff006e)",
+    warm: "linear-gradient(135deg, #ff006e, #fb5607)",
+    hero: "linear-gradient(135deg, rgba(6, 214, 160, 0.15), rgba(131, 56, 236, 0.15), rgba(255, 0, 110, 0.1))",
+    text: "linear-gradient(90deg, #06d6a0, #8338ec, #ff006e)",
   },
 };
 
