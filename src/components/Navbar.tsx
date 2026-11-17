@@ -1,150 +1,146 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Terminal, Sparkles } from "lucide-react";
-import { PERSONAL_INFO, COLORS } from "../constants";
+'use client';
 
-const Navbar: React.FC = () => {
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
+
+const navLinks = [
+  { label: 'About', href: '#about' },
+  { label: 'Skills', href: '#skills' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Contact', href: '#contact' },
+];
+
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: "About", href: "#about" },
-    { name: "Skills", href: "#skills" },
-    { name: "Projects", href: "#projects" },
-    { name: "Contact", href: "#contact" },
-  ];
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setIsOpen(false);
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
-    <nav
-      className={`fixed w-full z-50 transition-all duration-500 ${
-        scrolled ? "glass-nav py-3" : "py-5"
+    <motion.header
+      initial={{ y: -60, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.4 }}
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-200 ${
+        scrolled
+          ? 'bg-white/90 backdrop-blur-md border-b border-gray-200/80 shadow-xs'
+          : 'bg-transparent'
       }`}
     >
-      <div className="container mx-auto px-6 flex justify-between items-center">
-        {/* Logo */}
-        <motion.a
+      <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+        {/* Brand */}
+        <a
           href="#"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="flex items-center gap-2.5 text-xl font-bold font-mono-jb group"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className="flex items-center gap-2.5 group"
         >
-          <div
-            className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:shadow-lg"
-            style={{
-              background: "linear-gradient(135deg, rgba(6, 214, 160, 0.2), rgba(131, 56, 236, 0.2))",
-              border: "1px solid rgba(6, 214, 160, 0.3)",
-              boxShadow: "0 0 15px rgba(6, 214, 160, 0.1)",
-            }}
-          >
-            <Terminal className="w-4 h-4" style={{ color: COLORS.primary }} />
+          <span className="w-8 h-8 rounded-lg bg-black text-white flex items-center justify-center font-bold text-xs tracking-tight">
+            RH
+          </span>
+          <div className="flex flex-col">
+            <span className="text-sm font-bold text-gray-900 group-hover:text-black transition-colors">
+              Rimon Hossain
+            </span>
+            <span className="text-[11px] text-gray-500 font-medium">
+              Full Stack Developer
+            </span>
           </div>
-          <span className="gradient-text-static">RIMON_DEV</span>
-        </motion.a>
+        </a>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex gap-1 items-center">
-          {navLinks.map((link, index) => (
-            <motion.a
-              key={link.name}
-              href={link.href}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 hover:bg-white/5"
-              style={{ color: COLORS.text.subheading }}
+        {/* Desktop links */}
+        <nav className="hidden md:flex items-center gap-7">
+          <ul className="flex items-center gap-6">
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className="text-xs font-semibold uppercase tracking-wider text-gray-600 hover:text-black transition-colors"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex items-center pl-3 border-l border-gray-200">
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors"
             >
-              <span
-                className="font-mono-jb text-xs mr-1.5"
-                style={{ color: COLORS.primary }}
-              >
-                0{index + 1}.
-              </span>
-              {link.name}
-            </motion.a>
-          ))}
-          <motion.a
-            href={PERSONAL_INFO.resumeUrl}
-            target="_blank"
-            rel="noreferrer"
-            download
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="ml-3 glass-btn px-5 py-2.5 text-sm font-mono-jb flex items-center gap-2"
-            style={{ color: COLORS.primary }}
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            Resume
-          </motion.a>
-        </div>
+              Resume
+              <ArrowUpRight size={13} />
+            </a>
+          </div>
+        </nav>
 
-        {/* Mobile Toggle */}
-        <div className="md:hidden">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="glass-btn p-2.5"
-            style={{ color: COLORS.text.subheading }}
-          >
-            {isOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
-        </div>
+        {/* Mobile menu button */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="md:hidden p-2 text-gray-700 hover:text-black transition-colors"
+          aria-label="Toggle menu"
+        >
+          {isOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0, y: -10 }}
-            animate={{ opacity: 1, height: "auto", y: 0 }}
-            exit={{ opacity: 0, height: 0, y: -10 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden mx-4 mt-3 overflow-hidden glass"
-            style={{ borderRadius: 16 }}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden bg-white/98 backdrop-blur-xl border-b border-gray-200 shadow-md overflow-hidden"
           >
-            <div className="flex flex-col px-5 py-4 gap-1">
-              {navLinks.map((link, index) => (
+            <div className="px-6 py-4 space-y-2">
+              <ul className="space-y-1">
+                {navLinks.map((link) => (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      onClick={(e) => handleNavClick(e, link.href)}
+                      className="block py-2 text-sm font-medium text-gray-700 hover:text-black transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="pt-3 border-t border-gray-100">
                 <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="px-4 py-3 rounded-xl transition-all duration-300 hover:bg-white/5 text-sm"
-                  style={{ color: COLORS.text.subheading }}
+                  href="/resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center w-full gap-1.5 text-xs font-semibold px-4 py-2.5 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors"
                 >
-                  <span
-                    className="font-mono-jb text-xs mr-2"
-                    style={{ color: COLORS.primary }}
-                  >
-                    0{index + 1}.
-                  </span>
-                  {link.name}
+                  Download Resume
+                  <ArrowUpRight size={13} />
                 </a>
-              ))}
-              <a
-                href={PERSONAL_INFO.resumeUrl}
-                target="_blank"
-                rel="noreferrer"
-                download
-                className="glass-btn px-4 py-3 text-center mt-2 font-mono-jb text-sm flex items-center justify-center gap-2"
-                style={{ color: COLORS.primary }}
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                Resume
-              </a>
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </motion.header>
   );
-};
-
-export default Navbar;
+}

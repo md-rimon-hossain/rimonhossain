@@ -1,162 +1,152 @@
-"use client";
-import React from "react";
-import { motion } from "framer-motion";
-import { SKILLS, COLORS } from "../constants";
-import { TechSkill } from "../types";
+'use client';
 
-const categoryIcons: Record<string, string> = {
-  Frontend: "🎨",
-  Backend: "⚙️",
-  Database: "🗄️",
-  Tools: "🛠️",
-};
+import { motion } from 'framer-motion';
+import { 
+  Code, 
+  Server, 
+  Database, 
+  Wrench, 
+  Sparkles,
+} from 'lucide-react';
 
-const categoryGradients: Record<string, string> = {
-  Frontend: "linear-gradient(135deg, rgba(6, 214, 160, 0.15), rgba(6, 214, 160, 0.05))",
-  Backend: "linear-gradient(135deg, rgba(131, 56, 236, 0.15), rgba(131, 56, 236, 0.05))",
-  Database: "linear-gradient(135deg, rgba(255, 0, 110, 0.15), rgba(255, 0, 110, 0.05))",
-  Tools: "linear-gradient(135deg, rgba(251, 86, 7, 0.15), rgba(251, 86, 7, 0.05))",
-};
+interface SkillGroup {
+  title: string;
+  icon: React.ElementType;
+  skills: string[];
+}
 
-const categoryColors: Record<string, string> = {
-  Frontend: COLORS.primary,
-  Backend: COLORS.secondary,
-  Database: COLORS.tertiary,
-  Tools: COLORS.warm,
-};
+const skillGroups: SkillGroup[] = [
+  {
+    title: 'Frontend Development',
+    icon: Code,
+    skills: [
+      'HTML',
+      'CSS',
+      'Tailwind CSS',
+      'JavaScript',
+      'TypeScript',
+      'React',
+      'Next.js',
+      'Redux',
+      'Redux Toolkit',
+    ],
+  },
+  {
+    title: 'Backend Development',
+    icon: Server,
+    skills: [
+      'Node.js',
+      'Express',
+      'NestJS',
+      'REST APIs',
+      'OOP Architecture',
+    ],
+  },
+  {
+    title: 'Database & ORM',
+    icon: Database,
+    skills: [
+      'MongoDB',
+      'Mongoose',
+      'PostgreSQL',
+      'Prisma',
+      'SQL',
+    ],
+  },
+  {
+    title: 'Testing & DevOps',
+    icon: Wrench,
+    skills: [
+      'Jest',
+      'Git',
+      'GitHub',
+      'Docker',
+      'CI/CD',
+    ],
+  },
+];
 
-const Skills: React.FC = () => {
-  const categories = Array.from(new Set(SKILLS.map((s) => s.category)));
-
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.08,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 15 },
-    show: { opacity: 1, y: 0 },
-  };
-
+export default function Skills() {
   return (
-    <section id="skills" className="py-24 relative">
-      <div className="container mx-auto px-6">
-        {/* Section Header */}
+    <section id="skills" className="pt-20 px-6 bg-[#fafafa] ">
+      <div className="max-w-4xl mx-auto">
+        {/* Section Heading */}
+        <div className="text-center mb-12">
+          <motion.h2
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight"
+          >
+            Tech Stack
+          </motion.h2>
+          
+          <div className="w-10 h-1 bg-black mx-auto mt-3 rounded-full" />
+        </div>
+
+        {/* Categories Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {skillGroups.map((group, idx) => {
+            const Icon = group.icon;
+            return (
+              <motion.div
+                key={group.title}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: idx * 0.08 }}
+                className="bg-white rounded-2xl p-6 border border-gray-200/90 shadow-2xs hover:border-gray-300 transition-colors"
+              >
+                <div className="flex items-center gap-2.5 mb-4">
+                  <div className="w-8 h-8 rounded-lg bg-gray-100 text-black flex items-center justify-center">
+                    <Icon size={16} />
+                  </div>
+                  <h3 className="text-sm font-bold text-gray-900">
+                    {group.title}
+                  </h3>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {group.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-50 text-gray-800 border border-gray-200 hover:bg-black hover:text-white hover:border-black transition-colors"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Clean "Willing to Learn" Callout */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex items-center gap-4 mb-14"
+          transition={{ duration: 0.3, delay: 0.3 }}
+          className="mt-6 p-5 rounded-2xl bg-black text-white flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left"
         >
-          <span className="text-2xl md:text-3xl font-bold flex items-center gap-3">
-            <span className="font-mono-jb text-lg" style={{ color: COLORS.primary }}>
-              02.
-            </span>
-            <span className="gradient-text-static">Tech Stack</span>
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+              <Sparkles size={18} className="text-emerald-400" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-white">
+                Always Ready to Learn
+              </h4>
+              <p className="text-xs text-gray-300 mt-0.5 max-w-xl">
+                If your project or team requires any new technology I am eager to learn whatever is needed to deliver results.
+              </p>
+            </div>
+          </div>
+          <span className="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-lg bg-white/10 text-white border border-white/20">
+            Fast Learner
           </span>
-          <div
-            className="h-px grow max-w-xs"
-            style={{
-              background: "linear-gradient(90deg, rgba(131, 56, 236, 0.3), transparent)",
-            }}
-          />
         </motion.div>
-
-        {/* Skills Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {categories.map((category, catIdx) => (
-            <motion.div
-              key={category}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: catIdx * 0.1, duration: 0.5 }}
-              className="glass-card p-6"
-            >
-              {/* Category Header */}
-              <div className="flex items-center gap-3 mb-6">
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center text-lg"
-                  style={{
-                    background: categoryGradients[category],
-                    border: `1px solid ${categoryColors[category]}33`,
-                  }}
-                >
-                  {categoryIcons[category]}
-                </div>
-                <h3
-                  className="text-base font-bold"
-                  style={{ color: categoryColors[category] }}
-                >
-                  {category}
-                </h3>
-              </div>
-
-              {/* Skills List */}
-              <motion.div
-                variants={container}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                className="space-y-3"
-              >
-                {SKILLS.filter((s) => s.category === category).map(
-                  (skill: TechSkill) => (
-                    <motion.div
-                      key={skill.name}
-                      variants={item}
-                      className="glass p-3 group transition-all duration-300 hover:bg-white/[0.06]"
-                      style={{ borderRadius: 10 }}
-                    >
-                      <div className="flex justify-between items-center mb-2">
-                        <span
-                          className="font-mono-jb text-xs font-medium group-hover:text-white transition-colors"
-                          style={{ color: COLORS.text.subheading }}
-                        >
-                          {skill.name}
-                        </span>
-                        <span
-                          className="text-[10px] font-mono-jb font-bold px-1.5 py-0.5 rounded"
-                          style={{
-                            color: categoryColors[category],
-                            background: `${categoryColors[category]}15`,
-                          }}
-                        >
-                          {skill.level}%
-                        </span>
-                      </div>
-                      {/* Progress bar */}
-                      <div
-                        className="w-full h-1 rounded-full overflow-hidden"
-                        style={{ background: "rgba(255, 255, 255, 0.05)" }}
-                      >
-                        <motion.div
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${skill.level}%` }}
-                          transition={{ duration: 1.2, ease: "easeOut" }}
-                          viewport={{ once: true }}
-                          className="h-full rounded-full"
-                          style={{
-                            background: `linear-gradient(90deg, ${categoryColors[category]}, ${categoryColors[category]}88)`,
-                            boxShadow: `0 0 8px ${categoryColors[category]}40`,
-                          }}
-                        />
-                      </div>
-                    </motion.div>
-                  )
-                )}
-              </motion.div>
-            </motion.div>
-          ))}
-        </div>
       </div>
     </section>
   );
-};
-
-export default Skills;
+}

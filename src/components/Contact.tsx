@@ -1,126 +1,116 @@
-"use client";
-import React from "react";
-import { motion } from "framer-motion";
-import { Mail, Phone, ArrowUpRight, Heart } from "lucide-react";
-import { SOCIAL_LINKS, PERSONAL_INFO, COLORS } from "@/constants";
+'use client';
 
-const Contact: React.FC = () => {
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Github, Linkedin, Copy, Check, FileText, Send } from 'lucide-react';
+
+export default function Contact() {
+  const [copied, setCopied] = useState(false);
+  const email = 'rimon.dev.contact@gmail.com';
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
-    <section id="contact" className="py-24 relative">
-      {/* Decorative glow */}
-      <div
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full blur-[150px] opacity-10 pointer-events-none"
-        style={{
-          background: "linear-gradient(135deg, #06d6a0, #8338ec)",
-        }}
-      />
-
-      <div className="container mx-auto px-6 text-center max-w-3xl relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
+    <section id="contact" className="py-20 px-6 bg-[#fafafa] border-t border-gray-100">
+      <div className="max-w-2xl mx-auto text-center">
+        {/* Section Heading */}
+        <motion.h2
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-14"
+          className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight"
         >
-          <p className="font-mono-jb text-sm mb-5" style={{ color: COLORS.primary }}>
-            04. What&apos;s Next?
-          </p>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="gradient-text">Get In Touch</span>
-          </h2>
-          <p
-            className="text-base md:text-lg mb-10 leading-relaxed"
-            style={{ color: COLORS.text.body }}
-          >
-            I am currently open to new opportunities and collaborations. Whether
-            you have a question about MERN stack, Next.js, or just want to say
-            hi, I&apos;ll try my best to get back to you!
-          </p>
+          Get In Touch
+        </motion.h2>
+        <div className="w-10 h-1 bg-black mx-auto mt-3 rounded-full" />
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-14">
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="text-gray-700 text-sm sm:text-base leading-relaxed mt-5 mb-8 max-w-lg mx-auto"
+        >
+          I am actively looking for <span className="font-semibold text-black">Full Stack Developer</span> opportunities. If you need a developer who writes clean code, prioritizes security, and learns fast—reach out anytime.
+        </motion.p>
+
+        {/* Contact Action Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="bg-white rounded-2xl p-6 border border-gray-200 shadow-2xs max-w-md mx-auto flex flex-col items-center"
+        >
+          <div className="flex flex-col sm:flex-row items-center gap-2.5 w-full">
             <a
-              href={`mailto:${PERSONAL_INFO.email}`}
-              className="gradient-border px-8 py-4 font-mono-jb text-sm flex items-center gap-2.5 transition-all duration-300 hover:shadow-lg group"
-              style={{
-                color: COLORS.primary,
-                borderRadius: 16,
-                boxShadow: "0 4px 30px rgba(6, 214, 160, 0.1)",
-              }}
+              href={`mailto:${email}`}
+              className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 bg-black text-white text-xs font-semibold rounded-xl hover:bg-gray-800 transition-colors shadow-xs"
             >
-              <Mail size={18} />
-              Say Hello
-              <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <Send size={14} />
+              Send Email
             </a>
-            <a
-              href={`tel:${PERSONAL_INFO.phone}`}
-              className="glass-btn px-8 py-4 font-mono-jb text-sm flex items-center gap-2.5"
-              style={{ color: COLORS.text.subheading }}
+
+            <button
+              onClick={handleCopyEmail}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-3 border border-gray-200 text-gray-800 text-xs font-semibold rounded-xl hover:bg-gray-50 transition-colors"
             >
-              <Phone size={18} />
-              {PERSONAL_INFO.phone}
-            </a>
+              {copied ? (
+                <>
+                  <Check size={14} className="text-emerald-600" />
+                  <span className="text-emerald-700">Copied!</span>
+                </>
+              ) : (
+                <>
+                  <Copy size={14} />
+                  <span>Copy</span>
+                </>
+              )}
+            </button>
           </div>
         </motion.div>
 
         {/* Social Links */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-          className="flex justify-center gap-4 mb-14"
+          transition={{ duration: 0.4, delay: 0.3 }}
+          className="mt-8 flex items-center justify-center gap-3"
         >
-          {SOCIAL_LINKS.map((link) => (
-            <a
-              key={link.name}
-              href={link.url}
-              target="_blank"
-              rel="noreferrer"
-              className="glass-btn p-3.5 transition-all duration-300 hover:glow-cyan group"
-              style={{ borderRadius: 14 }}
-              title={link.name}
-            >
-              <link.icon
-                size={22}
-                className="transition-colors duration-300"
-                style={{ color: COLORS.text.body }}
-              />
-            </a>
-          ))}
+          <a
+            href="https://github.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 hover:text-black hover:border-black text-xs font-semibold transition-colors"
+          >
+            <Github size={14} />
+            GitHub
+          </a>
+          <a
+            href="https://linkedin.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 hover:text-black hover:border-black text-xs font-semibold transition-colors"
+          >
+            <Linkedin size={14} />
+            LinkedIn
+          </a>
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-700 hover:text-black hover:border-black text-xs font-semibold transition-colors"
+          >
+            <FileText size={14} />
+            Resume
+          </a>
         </motion.div>
-
-        {/* Footer */}
-        <motion.footer
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="glass p-6"
-          style={{ borderRadius: 16 }}
-        >
-          <p
-            className="font-mono-jb text-xs flex items-center justify-center gap-1.5"
-            style={{ color: COLORS.text.meta }}
-          >
-            Designed & Built with{" "}
-            <Heart className="w-3.5 h-3.5 inline" style={{ color: COLORS.tertiary }} />{" "}
-            by{" "}
-            <span className="gradient-text-static font-semibold">
-              {PERSONAL_INFO.name}
-            </span>
-          </p>
-          <p
-            className="mt-2 font-mono-jb text-[10px]"
-            style={{ color: COLORS.text.meta }}
-          >
-            © {new Date().getFullYear()} — All rights reserved.
-          </p>
-        </motion.footer>
       </div>
     </section>
   );
-};
-
-export default Contact;
+}
